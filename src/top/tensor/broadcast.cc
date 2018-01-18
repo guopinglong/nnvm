@@ -131,6 +131,8 @@ DMLC_REGISTER_PARAMETER(BinaryBroadcastParam);
   NNVM_REGISTER_OP(name)                                            \
   .set_num_inputs(2)                                                \
   .set_num_outputs(1)                                               \
+  .add_arguments(BinaryBroadcastParam::__FIELDS__())                \
+  .set_attr_parser(ParamParser<BinaryBroadcastParam>)               \
   .set_attr<FInferShape>("FInferShape", BinaryBroadcastShape)       \
   .set_attr<FInferType>("FInferType", ElemwiseType<2, 1>)           \
   .set_attr<FInplaceOption>("FInplaceOption",                       \
