@@ -127,19 +127,20 @@ inline bool BinaryBroadcastShape(const nnvm::NodeAttrs& attrs,
 
 DMLC_REGISTER_PARAMETER(BinaryBroadcastParam);
 
-#define NNVM_REGISTER_BINARY_BROADCAST_OP(name)                     \
-  NNVM_REGISTER_OP(name)                                            \
-  .set_num_inputs(2)                                                \
-  .set_num_outputs(1)                                               \
-  .add_arguments(BinaryBroadcastParam::__FIELDS__())                \
-  .set_attr_parser(ParamParser<BinaryBroadcastParam>)               \
-  .set_attr<FInferShape>("FInferShape", BinaryBroadcastShape)       \
-  .set_attr<FInferType>("FInferType", ElemwiseType<2, 1>)           \
-  .set_attr<FInplaceOption>("FInplaceOption",                       \
-    [](const NodeAttrs& attrs) {                                    \
-      return std::vector<std::pair<int, int> >{{0, 0}, {1, 0}};     \
-    })                                                              \
-  .add_argument("lhs", "Tensor", "first input")                     \
+#define NNVM_REGISTER_BINARY_BROADCAST_OP(name)                                   \
+  NNVM_REGISTER_OP(name)                                                          \
+  .set_num_inputs(2)                                                              \
+  .set_num_outputs(1)                                                             \
+  .add_arguments(BinaryBroadcastParam::__FIELDS__())                              \
+  .set_attr_parser(ParamParser<BinaryBroadcastParam>)                             \
+  .set_attr<FGetAttrDict>("FGetAttrDict", ParamGetAttrDict<BinaryBroadcastParam>) \
+  .set_attr<FInferShape>("FInferShape", BinaryBroadcastShape)                     \
+  .set_attr<FInferType>("FInferType", ElemwiseType<2, 1>)                         \
+  .set_attr<FInplaceOption>("FInplaceOption",                                     \
+    [](const NodeAttrs& attrs) {                                                  \
+      return std::vector<std::pair<int, int> >{{0, 0}, {1, 0}};                   \
+    })                                                                            \
+  .add_argument("lhs", "Tensor", "first input")                                   \
   .add_argument("rhs", "Tensor", "second input")
 
 
